@@ -13,6 +13,8 @@ env:
 jobs:
     build:
         runs-on: ubuntu-latest
+        env:
+            TOKEN: ${{ github.actor }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
@@ -20,4 +22,8 @@ jobs:
               run: ls -la
             - name: Access context property
               run: 'echo "This is passed env PIPE: ${{ env.PIPE }}"'
+            - name: Expand default env variables
+              run: echo my repository $GITHUB_REPOSITORY
+
+
 
