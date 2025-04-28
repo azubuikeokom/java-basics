@@ -12,6 +12,7 @@ env:
     PIPE: cicd
 jobs:
     build:
+        if: ${{ vars.EXEC_WF == 'true' }}
         runs-on: ubuntu-latest
         env:
             TOKEN: ${{ github.actor }}
@@ -24,6 +25,8 @@ jobs:
               run: 'echo "This is passed env PIPE: ${{ env.PIPE }}"'
             - name: Expand default env variables
               run: echo my repository $GITHUB_REPOSITORY
+            - name: Expand configuration variables
+              run: echo my file to check ${{ vars.FILE_TO_CHECK }}
 
 
 
