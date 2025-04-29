@@ -10,8 +10,10 @@ on:
     workflow_dispatch:
 env:
     PIPE: cicd
+permissions:
+    contents: write
 jobs:
-    build:
+    build-artifacts:
         if: ${{ vars.EXEC_WF == 'true' }}
         runs-on: ubuntu-latest
         env:
@@ -27,6 +29,31 @@ jobs:
               run: echo my repository $GITHUB_REPOSITORY
             - name: Expand configuration variables
               run: echo my file to check ${{ vars.FILE_TO_CHECK }}
+            - name: Archive and compress demo folder
+              run: tar -czf demo.tar.gz demo/
+            - name: Upload Artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: artifact-demo
+                path: demo/
+            - name: List directory
+              run: ls -la
+    use-artifacts:
+        runs-on: ubuntu-latest
+        env:
+            TOKEN: $GITHUB_TOKEN
+        steps:
+            - name: List directoty
+              run: ls -la
+            - name: Download Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                name: artifact-demo
+                artifact-ids: artifact-demo
+                path: ./
+    
+              
+    
 
 
 
