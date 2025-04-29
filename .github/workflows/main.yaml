@@ -39,6 +39,7 @@ jobs:
             - name: List directory
               run: ls -la
     use-artifacts:
+        needs: [build-artifacts]
         runs-on: ubuntu-latest
         env:
             TOKEN: $GITHUB_TOKEN
